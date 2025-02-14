@@ -2,12 +2,11 @@
 title: "Tutorial: R Script for Broiler Performance Data Analysis "
 layout: default
 ---
-________________________________________
 
-________________________________________
+Tutorial: R Script for Broiler Performance Data Analysis 
 
 This guide will help you adapt and run the R script for any broiler feeding experiment performance dataset by modifying a few variables at the top of the script. Follow the instructions below to set up, understand, and execute your analysis.
-________________________________________
+
 1. Introduction
 This generalized script is designed for flexibility so that you can apply it to various datasets and projects with minimal changes. It will:
 •	Load your data: From an Excel file (or other formats with small modifications).
@@ -15,7 +14,7 @@ This generalized script is designed for flexibility so that you can apply it to 
 •	Perform statistical tests: Decide between ANOVA and Kruskal-Wallis (plus post hoc comparisons) based on data normality.
 •	Create plots: Generate boxplots with individual data points, annotated with p-values.
 •	Save results: Output summary CSV files and save plots in both PNG and PDF formats.
-________________________________________
+
 2. Prerequisites
 Before running the script, ensure you have the following:
 •	R and RStudio installed: RStudio is recommended as it simplifies running and debugging scripts.
@@ -27,7 +26,7 @@ Before running the script, ensure you have the following:
 •	install.packages("broom")
 •	install.packages("car")
 •	install.packages("dunn.test")
-________________________________________
+
 3. Script Overview and Structure
 Below is an explanation of each section of the script. You only need to change the variables in the User Defined Variables section at the top to customize the script for your project.
 3.1. User Defined Variables
@@ -277,14 +276,13 @@ write.csv(results_summary, results_summary_file, row.names = FALSE)
 if (nrow(posthoc_summary) > 0) {
   write.csv(posthoc_summary, posthoc_summary_file, row.names = FALSE)
 }
-________________________________________
+
 4. Step-by-Step Instructions for Running the Script
 Step 1: Prepare Your Environment
 •	Open RStudio: Launch RStudio on your computer.
 •	Create a New Script: 
 o	Go to File > New File > R Script.
 o	Copy and paste the entire script (as provided above) into the new script file.
-
 Step 2: Modify User Defined Variables
 •	Set the Working Directory:
 Change the working_directory variable to the folder where your data file is stored.
@@ -294,7 +292,6 @@ Update data_file with the name of your Excel (or CSV) file.
 Make sure treatment_column matches your data’s grouping variable and adjust treatment_levels if needed.
 •	Define Analysis Columns (Optional):
 Leave analysis_columns as NULL to automatically analyze all numeric columns (except the treatment column) or specify a vector of column names to analyze.
-
 Step 3: Install Required Packages (if necessary)
 If you have not installed the necessary packages, run the following commands in the R console:
 install.packages("readxl")
@@ -304,14 +301,13 @@ install.packages("tidyr")
 install.packages("broom")
 install.packages("car")
 install.packages("dunn.test")
-
 Step 4: Run the Script
 •	Set the Working Directory:
 You can use the setwd() function in the script or use RStudio’s menu:
 Session > Set Working Directory > Choose Directory...
 •	Execute the Script:
 Click the “Source” button in the RStudio script editor or select all lines of code and press Ctrl+Enter (or Cmd+Enter on macOS) to run the script.
-________________________________________
+
 5. Reviewing the Outputs
 After running the script, check the following:
 •	Console Output:
@@ -322,7 +318,6 @@ Look in the RStudio Plots pane to see the boxplots for each analyzed variable. E
 The script saves two CSV files in your working directory: 
 o	One with the overall test summary (analysis_summary.csv by default).
 o	One with the post hoc test summary (posthoc_summary.csv by default), if any post hoc tests were performed.
-________________________________________
 6. Final Tips and Troubleshooting
 •	Understanding Errors:
 If you encounter errors, check that the variables (such as the working directory, file name, or column names) are correctly specified.
@@ -332,5 +327,6 @@ You can modify the helper functions if you want to change the analysis or plotti
 Once you’re comfortable with the script, try changing plot themes, adding labels, or adjusting parameters to learn more about R’s capabilities.
 •	Documentation:
 Use ?function_name (for example, ?read_excel or ?aov) in RStudio to learn more about specific functions.
+
 
 
