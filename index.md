@@ -4,9 +4,11 @@ layout: default
 ---
 ________________________________________
 
+________________________________________
+
 This guide will help you adapt and run the R script for any broiler feeding experiment performance dataset by modifying a few variables at the top of the script. Follow the instructions below to set up, understand, and execute your analysis.
 ________________________________________
-1.** Introduction**
+1. Introduction
 This generalized script is designed for flexibility so that you can apply it to various datasets and projects with minimal changes. It will:
 •	Load your data: From an Excel file (or other formats with small modifications).
 •	Preprocess your data: Convert a specified column (e.g., Treatment) to a factor.
@@ -14,7 +16,7 @@ This generalized script is designed for flexibility so that you can apply it to 
 •	Create plots: Generate boxplots with individual data points, annotated with p-values.
 •	Save results: Output summary CSV files and save plots in both PNG and PDF formats.
 ________________________________________
-2. **Prerequisites**
+2. Prerequisites
 Before running the script, ensure you have the following:
 •	R and RStudio installed: RStudio is recommended as it simplifies running and debugging scripts.
 •	Required R packages: Install the packages using the commands below (only if you haven’t already):
@@ -26,7 +28,7 @@ Before running the script, ensure you have the following:
 •	install.packages("car")
 •	install.packages("dunn.test")
 ________________________________________
-3. **Script Overview and Structure**
+3. Script Overview and Structure
 Below is an explanation of each section of the script. You only need to change the variables in the User Defined Variables section at the top to customize the script for your project.
 3.1. User Defined Variables
 At the very top of the script, you will find a section where you can define:
@@ -36,7 +38,6 @@ At the very top of the script, you will find a section where you can define:
 •	treatment_levels: The order (levels) for the treatment groups.
 •	analysis_columns: Which columns you want to analyze. If set to NULL, the script automatically selects all numeric columns (excluding the treatment column).
 •	Output file names: For the summary CSV files.
-
 # =============================================================================
 # User Defined Variables
 # =============================================================================
@@ -133,12 +134,12 @@ posthoc_summary <- data.frame(
 # Define Helper Functions
 # =============================================================================
 # ---------------------------------------------------------------------------
-****# Function: perform_stat_test**
+# Function: perform_stat_test
 # Description: Determines whether the data for a given variable is normally 
 # distributed using the Shapiro-Wilk test. Depending on normality, it runs either:
 #   - ANOVA if the data is normally distributed, or 
 #   - Kruskal-Wallis test if the data is not normally distributed.
-# The function returns a tidy summary of the test and the original model object.**
+# The function returns a tidy summary of the test and the original model object.
 # ---------------------------------------------------------------------------
 perform_stat_test <- function(data, variable_name) {
   # Perform the Shapiro-Wilk test for normality.
@@ -153,8 +154,7 @@ perform_stat_test <- function(data, variable_name) {
     test_result <- aov(as.formula(paste(variable_name, "~", treatment_column)), data = data)
     method_used <- "ANOVA"
   }
-  
-  # Tidy the test result into a data frame for easier handling.
+    # Tidy the test result into a data frame for easier handling.
   tidy_result <- tidy(test_result)
   tidy_result$method <- method_used
   
@@ -206,13 +206,13 @@ perform_post_hoc <- function(data, variable_name, method_used, model) {
   return(posthoc_tidy)
 }
 # ---------------------------------------------------------------------------
-**# Function: analyze_and_plot
+# Function: analyze_and_plot
 # Description: For a given variable:
 #   - Creates a boxplot with jittered data points.
 #   - Runs the appropriate statistical test and, if necessary, a post hoc test.
 #   - Annotates the plot with the p-value.
 #   - Saves the plot in both PNG and PDF formats.
-#   - Updates global summary data frames with test results.**
+#   - Updates global summary data frames with test results.
 # ---------------------------------------------------------------------------
 analyze_and_plot <- function(var_name) {
   # Create a boxplot with individual data points for the variable.
@@ -246,8 +246,7 @@ analyze_and_plot <- function(var_name) {
       select(Variable, comparison, estimate, conf.low, conf.high, adj.p.value, comparison_type)
     posthoc_summary <<- rbind(posthoc_summary, posthoc_res)
   }
-  
-  # Annotate the plot with the p-value.
+    # Annotate the plot with the p-value.
   p <- p + annotate("text", x = 1, y = Inf, 
                     label = paste("p =", format(stat_results$p.value[1], digits = 3)),
                     vjust = 1.5, hjust = -0.1, color = "red", size = 6)
@@ -285,6 +284,7 @@ Step 1: Prepare Your Environment
 •	Create a New Script: 
 o	Go to File > New File > R Script.
 o	Copy and paste the entire script (as provided above) into the new script file.
+
 Step 2: Modify User Defined Variables
 •	Set the Working Directory:
 Change the working_directory variable to the folder where your data file is stored.
@@ -294,6 +294,7 @@ Update data_file with the name of your Excel (or CSV) file.
 Make sure treatment_column matches your data’s grouping variable and adjust treatment_levels if needed.
 •	Define Analysis Columns (Optional):
 Leave analysis_columns as NULL to automatically analyze all numeric columns (except the treatment column) or specify a vector of column names to analyze.
+
 Step 3: Install Required Packages (if necessary)
 If you have not installed the necessary packages, run the following commands in the R console:
 install.packages("readxl")
@@ -303,6 +304,7 @@ install.packages("tidyr")
 install.packages("broom")
 install.packages("car")
 install.packages("dunn.test")
+
 Step 4: Run the Script
 •	Set the Working Directory:
 You can use the setwd() function in the script or use RStudio’s menu:
@@ -330,4 +332,5 @@ You can modify the helper functions if you want to change the analysis or plotti
 Once you’re comfortable with the script, try changing plot themes, adding labels, or adjusting parameters to learn more about R’s capabilities.
 •	Documentation:
 Use ?function_name (for example, ?read_excel or ?aov) in RStudio to learn more about specific functions.
+
 
